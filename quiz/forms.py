@@ -54,7 +54,9 @@ class ChoiceForm(forms.ModelForm):
         fields = ['text']
 
 
+
 ChoicesFormSet = forms.modelformset_factory(
     model=Choice,
     form=ChoiceForm,
     extra=0)
+

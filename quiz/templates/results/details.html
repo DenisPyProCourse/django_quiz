@@ -1,11 +1,22 @@
 {% extends 'base.html' %}
 
+{% load custom_tags %}
+
 {% block title %}
     Результат теста
 {% endblock %}
 
 {% block header %}
     Результат теста: "{{ result.exam.title }}"
+    <div class="progress">
+      <div class="progress-bar"
+           role="progressbar"
+           style="width: 100%"
+           aria-valuenow="100"
+           aria-valuemin="0"
+           aria-valuemax="100">
+      </div>
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -28,7 +39,21 @@
                         </tr>
                         <tr>
                             <td>Результат</td>
-                            <td>{{ result.num_correct_answers }} / {{ result.num_incorrect_answers }}</td>
+                            <td>{% expression '(100 *1//%1) * %2' result.exam.questions_count result.num_correct_answers as progress_level %}
+                            <div class="progress">
+                                <div class="progress-bar"
+                                        {# role="progressbar"
+                                        {# style="width: {{ progress_level }}%"
+                                        {# aria-valuenow="{{ progress_level }}"
+                                        {# aria-valuemin="0"
+                                        {# aria-valuemax="100">
+                                        {{ progress_level }} %.
+{#                                    <span style="color: blue">{{ progress_level }} % ответов правильные.</span>#}
+                                        </div>
+                                 </div></td>
+
+{#                            <td>{{ result.num_correct_answers }} / {{ result.num_incorrect_answers }}</td>#}
+{#                            <td>{{ result.exam.question_count }}</td>#}
                         </tr>
                     </tbody>
               </table>

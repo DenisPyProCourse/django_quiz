@@ -30,6 +30,9 @@ class Exam(BaseModel):
     def __str__(self):
         return self.title
 
+    def questions_count(self):
+        return self.questions.count()
+
     class Meta:
         verbose_name = 'Exam'
         verbose_name_plural = 'Exams'
@@ -71,7 +74,7 @@ class Result(BaseModel):
     exam = models.ForeignKey(Exam, related_name='results', on_delete=models.CASCADE)
     state = models.PositiveSmallIntegerField(default=STATE.NEW, choices=STATE.choices)
     uuid = models.UUIDField(default=uuid4, db_index=True, unique=True)
-    current_order_number = models.PositiveSmallIntegerField(null=True)
+    current_order_number = models.PositiveSmallIntegerField(default=0)
     num_correct_answers = models.PositiveSmallIntegerField(default=0)
     num_incorrect_answers = models.PositiveSmallIntegerField(default=0)
 
@@ -96,6 +99,8 @@ class Result(BaseModel):
 
     def points(self):
         return max(0, self.num_correct_answers - self.num_incorrect_answers)
+
+
 
     def duration(self):
         d1 = self.create_timestamp

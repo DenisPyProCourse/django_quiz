@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
+from quiz.models import Choice
+
 
 class QuestionInlineFormSet(forms.BaseInlineFormSet):
     def clean(self):
@@ -43,3 +45,16 @@ class ChoiceInlineFormSet(forms.BaseInlineFormSet):
 
         if num_correct_answers == len(self.forms):
             raise ValidationError('НЕ разрешено выбирать все варианты')
+
+class ChoiceForm(forms.ModelForm):
+    is_selected = forms.BooleanField(required=False)
+
+    class Meta:
+        model = Choice
+        fields = ['text']
+
+
+ChoicesFormSet = forms.modelformset_factory(
+    model=Choice,
+    form=ChoiceForm,
+    extra=0)

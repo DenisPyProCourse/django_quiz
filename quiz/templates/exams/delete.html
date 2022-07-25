@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <p>Вы действительно хотите удалить свой результат?
+        </p>
+        <div class="mt-2">
+            <input class="btn btn-outline-danger" type="submit" value="Да">
+            <a class="btn btn-outline-primary" href="{% url 'quiz:details' uuid=result.exam.uuid %}">Вернуться к тесту</a>
+        </div>
+    </form>
+{% endblock %}
